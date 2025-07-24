@@ -6,7 +6,7 @@ import os
 
 CLIENT_ID= "<your client ids"
 CLIENT_SECRET = "your client secret"
-REDIRECT_URI = 'http://127.0.0.1:8000'
+REDIRECT_URI = 'legato-top10tracks.streamlit.app'
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
@@ -29,7 +29,7 @@ st.write("Esta aplicação permite que você visualize e analise suas 10 música
 top_tracks = sp.current_user_top_tracks(limit=10, time_range='short_term')
 track_ids = [track['id'] for track in top_tracks['items']]
 i = 1
-st.write("### Your Top Tracks")
+st.write("### Suas Top 10 Músicas mais tocadas")
 
 for item in top_tracks['items']:
     st.subheader(f"{i}º Lugar")
@@ -50,11 +50,11 @@ for item in top_tracks['items']:
         st.image(track_image, width=300)
 
     with col2:
-        st.markdown(f"**Track:** [{track_name}]({track_url})")
-        st.markdown(f"**Album:** {album_name}")
-        st.markdown(f"**Artists:** {artist_names}")
-        st.markdown(f"**Release Date:** {release_date}")
-        st.markdown(f"**Duration (ms):** {duration_ms}")
-        st.markdown(f"**Popularity:** {popularity}")
+        st.markdown(f"**Música:** [{track_name}]({track_url})")
+        st.markdown(f"**Álbum:** {album_name}")
+        st.markdown(f"**Artista:** {artist_names}")
+        st.markdown(f"**Data de Lançamento:** {release_date}")
+        st.markdown(f"**Duração (ms):** {duration_ms}")
+        st.markdown(f"**Popularidade:** {popularity}")
 
     st.markdown("---")
