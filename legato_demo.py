@@ -13,7 +13,6 @@ params = {
     "client_id": SPOTIPY_CLIENT_ID,
     "response_type": "code",
     "redirect_uri": REDIRECT_URI,
-    "scope": scope
 }
 
 sp = spotipy.Spotify(
