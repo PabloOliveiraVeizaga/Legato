@@ -15,7 +15,7 @@ params = {
     "client_id": SPOTIPY_CLIENT_ID,
     "response_type": "code",
     "redirect_uri": REDIRECT_URI,
-    "scope": SCOPE
+    "scope": 'user-top-read user-library-read user-read-recently-played user-read-playback-state user-modify-playback-state'
 }
 url = f"https://accounts.spotify.com/authorize?{urllib.parse.urlencode(params)}"
 
