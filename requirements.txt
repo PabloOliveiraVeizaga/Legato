@@ -2,3 +2,4 @@ pandas
 spotipy
 streamlit
 urllib.parse
+requests
