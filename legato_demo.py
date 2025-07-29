@@ -4,8 +4,8 @@ import pandas as pd
 import streamlit as st
 import os
 
-SPOTIPY_CLIENT_ID = ""
-SPOTIPY_CLIENT_SECRET = ""
+SPOTIPY_CLIENT_ID = "418bc0b18e11485589d6898e5530c0df"
+SPOTIPY_CLIENT_SECRET = "500b4a2a865e4b748c65bf48c1cf4b3f"
 REDIRECT_URI = 'https://seu-app.streamlit.app/callback'
 
 sp = spotipy.Spotify(
