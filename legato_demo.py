@@ -10,8 +10,8 @@ REDIRECT_URI = 'http://127.0.0.1:8001/callback'
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
-        client_id=CLIENT_ID,
-        client_secret=CLIENT_SECRET,
+        client_id=SPOTIPY_CLIENT_ID,
+        client_secret=SPOTIPY_CLIENT_SECRET,
         redirect_uri=REDIRECT_URI,
         scope='user-top-read user-library-read user-read-recently-played user-read-playback-state user-modify-playback-state'
     )
