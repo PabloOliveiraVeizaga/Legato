@@ -6,7 +6,7 @@ import os
 
 CLIENT_ID= "your client ids"
 CLIENT_SECRET = "your client secret"
-REDIRECT_URI = 'http://127.0.0.1:8000'
+REDIRECT_URI = 'http://127.0.0.1:8001'
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
