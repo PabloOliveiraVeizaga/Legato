@@ -26,7 +26,6 @@ st.set_page_config(
 st.title("Analise seu Top 10 Músicas Favoritas no Spotify")
 st.write("Esta aplicação permite que você visualize e analise suas 10 músicas mais tocadas no Spotify, incluindo informações como nome da música, álbum, artistas, data de lançamento, duração, popularidade.")
 url = "https://accounts.spotify.com/authorize?client_id=client+id+here&response_type=code&redirect_uri=https%3A%2F%2Flegato-top10tracks.streamlit.app&scope=user-top-read+user-library-read+user-read-recently-played+user-read-playback-state+user-modify-playback-state"
-st.write("Clique nesse link para fazer a autorização [link](%s)" % url)
 st.markdown("Clique nesse link para fazer a autorização [link](%s)" % url)
 
 top_tracks = sp.current_user_top_tracks(limit=10, time_range='short_term')
