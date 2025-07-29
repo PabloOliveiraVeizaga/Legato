@@ -8,7 +8,7 @@ import base64
 
 SPOTIPY_CLIENT_ID = "418bc0b18e11485589d6898e5530c0df"
 SPOTIPY_CLIENT_SECRET = "500b4a2a865e4b748c65bf48c1cf4b3f"
-REDIRECT_URI = 'https://legato-top10tracks.streamlit.app'
+REDIRECT_URI = 'https://legato-top10tracks.streamlit.app/callback'
 SCOPE = "user-top-read user-library-read user-read-recently-played user-read-playback-state user-modify-playback-state"
 
 # Geração do link de autenticação
