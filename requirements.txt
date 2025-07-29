@@ -3,3 +3,4 @@ spotipy
 streamlit
 urllib.parse
 requests
+base64
