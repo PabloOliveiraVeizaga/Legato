@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 import os
 
-CLIENT_ID= "<your client ids"
+CLIENT_ID= "your client ids"
 CLIENT_SECRET = "your client secret"
 REDIRECT_URI = 'http://127.0.0.1:8000/callback'
 
