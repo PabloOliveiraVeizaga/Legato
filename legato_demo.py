@@ -1,50 +1,45 @@
+import spotipy
+import pandas as pd
 import streamlit as st
 import requests
+import os
 import urllib.parse
 import base64
 
-# ======================
-# CONFIGURAÇÕES SPOTIFY
-# ======================
-CLIENT_ID = "418bc0b18e11485589d6898e5530c0df"
-CLIENT_SECRET = "500b4a2a865e4b748c65bf48c1cf4b3f"
-REDIRECT_URI = 'https://legato-top10tracks.streamlit.app/callback'
+SPOTIPY_CLIENT_ID = "418bc0b18e11485589d6898e5530c0df"
+SPOTIPY_CLIENT_SECRET = "500b4a2a865e4b748c65bf48c1cf4b3f"
+REDIRECT_URI = 'https://legato-top10tracks.streamlit.app'
 SCOPE = "user-top-read user-library-read user-read-recently-played user-read-playback-state user-modify-playback-state"
 
-# ======================
-# INICIALIZA INTERFACE
-# ======================
+# Geração do link de autenticação
+params = {
+    "client_id": SPOTIPY_CLIENT_ID,
+    "response_type": "code",
+    "redirect_uri": REDIRECT_URI,
+    "scope": SCOPE
+}
+url = f"https://accounts.spotify.com/authorize?{urllib.parse.urlencode(params)}"
+
 st.set_page_config(
     page_title="Legato - Spotify Top Tracks Analysis",
-    page_icon="🎵",
-    layout="wide"
+    page_icon=":musical_note:",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-st.title("🎶 Analise suas 10 músicas favoritas no Spotify")
+st.title("Analise seu Top 10 Músicas Favoritas no Spotify")
+st.write("Esta aplicação permite que você visualize e analise suas 10 músicas mais tocadas no Spotify, incluindo informações como nome da música, álbum, artistas, data de lançamento, duração, popularidade.")
 
 query_params = st.query_params
 
-# ======================
-# AUTENTICAÇÃO
-# ======================
+# Autenticação
 if "code" not in query_params:
-    # Se não tiver código, mostrar botão de login
-    params = {
-        "client_id": CLIENT_ID,
-        "response_type": "code",
-        "redirect_uri": REDIRECT_URI,
-        "scope": SCOPE
-    }
-    auth_url = f"https://accounts.spotify.com/authorize?{urllib.parse.urlencode(params)}"
-    st.markdown("Para continuar, é necessário autorizar o acesso à sua conta Spotify:")
-    st.markdown(f"👉 [Clique aqui para autenticar com o Spotify]({auth_url})")
+    st.markdown(f"[Clique aqui para autenticar]({url})")
     st.stop()
 
-# ======================
-# TROCAR CÓDIGO POR TOKEN
-# ======================
+# Troca do código por token
 code = query_params["code"]
-auth_str = f"{CLIENT_ID}:{CLIENT_SECRET}"
+auth_str = f"{SPOTIPY_CLIENT_ID}:{SPOTIPY_CLIENT_SECRET}"
 b64_auth_str = base64.b64encode(auth_str.encode()).decode()
 
 headers = {
@@ -61,46 +56,43 @@ data = {
 response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
 
 if response.status_code != 200:
-    st.error("❌ Erro ao trocar código por token.")
+    st.error("Erro ao obter token de acesso do Spotify.")
     st.stop()
 
-token_info = response.json()
-access_token = token_info["access_token"]
+access_token = response.json()["access_token"]
+sp = spotipy.Spotify(auth=access_token)
 
-# ======================
-# OBTER TOP TRACKS
-# ======================
-headers = {"Authorization": f"Bearer {access_token}"}
-tracks_url = "https://api.spotify.com/v1/me/top/tracks?limit=10&time_range=short_term"
+# Coleta das Top Tracks
+top_tracks = sp.current_user_top_tracks(limit=10, time_range='short_term')
+track_ids = [track['id'] for track in top_tracks['items']]
+i = 1
 
-tracks_response = requests.get(tracks_url, headers=headers)
+st.write("### Suas Top 10 Músicas mais tocadas")
 
-if tracks_response.status_code != 200:
-    st.error("❌ Erro ao buscar suas músicas.")
-    st.stop()
-
-top_tracks = tracks_response.json()
-
-# ======================
-# EXIBIR MÚSICAS
-# ======================
-st.write("### 🎧 Suas Top 10 Músicas")
-
-for i, item in enumerate(top_tracks['items'], start=1):
+for item in top_tracks['items']:
+    st.subheader(f"{i}º Lugar")
+    i += 1
     track_name = item['name']
     album_name = item['album']['name']
     artist_names = ', '.join(artist['name'] for artist in item['artists'])
     release_date = item['album']['release_date']
-    track_image = item['album']['images'][0]['url'] if item['album']['images'] else ''
+    track_image = item['album']['images'][0]['url'] if item['album']['images'] else 'No image available'
     track_url = item['external_urls']['spotify']
+    preview_url = item.get('preview_url', 'No preview available')
     duration_ms = item['duration_ms']
     popularity = item['popularity']
 
     col1, col2 = st.columns([1, 3])
+
     with col1:
-        st.image(track_image, width=250)
+        st.image(track_image, width=300)
 
     with col2:
-        st.subheader(f"{i}º Lugar - [{track_name}]({track_url})")
+        st.markdown(f"**Música:** [{track_name}]({track_url})")
         st.markdown(f"**Álbum:** {album_name}")
-        st.markdown(f"**Artistas:** {artist_names}")
+        st.markdown(f"**Artista:** {artist_names}")
+        st.markdown(f"**Data de Lançamento:** {release_date}")
+        st.markdown(f"**Duração (ms):** {duration_ms}")
+        st.markdown(f"**Popularidade:** {popularity}")
+
+    st.markdown("---")
