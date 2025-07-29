@@ -3,10 +3,18 @@ from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 import pandas as pd
 import streamlit as st
 import os
+import urllib.parse
 
 SPOTIPY_CLIENT_ID = "418bc0b18e11485589d6898e5530c0df"
 SPOTIPY_CLIENT_SECRET = "500b4a2a865e4b748c65bf48c1cf4b3f"
 REDIRECT_URI = 'https://legato-top10tracks.streamlit.app/callback'
+
+params = {
+    "client_id": SPOTIPY_CLIENT_ID,
+    "response_type": "code",
+    "redirect_uri": redirect_uri,
+    "scope": scope
+}
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
@@ -25,7 +33,7 @@ st.set_page_config(
 )
 st.title("Analise seu Top 10 Músicas Favoritas no Spotify")
 st.write("Esta aplicação permite que você visualize e analise suas 10 músicas mais tocadas no Spotify, incluindo informações como nome da música, álbum, artistas, data de lançamento, duração, popularidade.")
-url = "https://accounts.spotify.com/authorize?client_id={SPOTIPY_CLIENT_ID}&response_type=code&redirect_uri=https%3A%2F%2Flegato-top10tracks.streamlit.app&scope=user-top-read+user-library-read+user-read-recently-played+user-read-playback-state+user-modify-playback-state"
+url = f"https://accounts.spotify.com/authorize?{urllib.parse.urlencode(params)}" 
 st.markdown("Clique nesse link para fazer a autorização [link](%s)" % url)
 
 top_tracks = sp.current_user_top_tracks(limit=10, time_range='short_term')
