@@ -55,6 +55,10 @@ data = {
 
 response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
 
+if response.status_code != 200:
+    st.error("Erro ao obter token de acesso do Spotify.")
+    st.stop()
+
 access_token = response.json()["access_token"]
 sp = spotipy.Spotify(auth=access_token)
 
