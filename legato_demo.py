@@ -54,6 +54,19 @@ data = {
 }
 
 response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
+if response.status_code != 200:
+    st.error("Erro ao obter token de acesso do Spotify.")
+    st.stop()
+
+access_token = response.json()["access_token"]
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(
+        client_id=CLIENT_ID,
+        client_secret=CLIENT_SECRET,
+        redirect_uri=REDIRECT_URI,
+        scope='user-top-read user-library-read user-read-recently-played user-read-playback-state user-modify-playback-state'
+    )
+)
 
 # Coleta das Top Tracks
 top_tracks = sp.current_user_top_tracks(limit=10, time_range='short_term')
