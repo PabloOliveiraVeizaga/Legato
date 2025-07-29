@@ -6,7 +6,7 @@ import os
 
 CLIENT_ID= "418bc0b18e11485589d6898e5530c0df"
 CLIENT_SECRET = "500b4a2a865e4b748c65bf48c1cf4b3f"
-REDIRECT_URI = 'https://legato-top10tracks.streamlit.app'
+REDIRECT_URI = 'http://127.0.0.1:8001/callback'
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
