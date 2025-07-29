@@ -6,7 +6,7 @@ import os
 
 CLIENT_ID= "your client ids"
 CLIENT_SECRET = "your client secret"
-REDIRECT_URI = 'http://127.0.0.1:8000/callback'
+REDIRECT_URI = 'http://127.0.0.1:8000'
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
