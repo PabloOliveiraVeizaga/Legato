@@ -33,7 +33,7 @@ st.set_page_config(
 st.title("Analise seu Top 10 Músicas Favoritas no Spotify")
 st.write("Esta aplicação permite que você visualize e analise suas 10 músicas mais tocadas no Spotify, incluindo informações como nome da música, álbum, artistas, data de lançamento, duração, popularidade.")
 url = url = f"https://accounts.spotify.com/authorize?{urllib.parse.urlencode(params)}" 
-st.markdown(f"[Clique aqui para autenticar]({callback_url})")
+st.markdown(f"[Clique aqui para autenticar]({url})")
 
 
 top_tracks = sp.current_user_top_tracks(limit=10, time_range='short_term')
