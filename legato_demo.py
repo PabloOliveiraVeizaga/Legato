@@ -12,7 +12,7 @@ REDIRECT_URI = 'https://legato-top10tracks.streamlit.app/callback'
 params = {
     "client_id": SPOTIPY_CLIENT_ID,
     "response_type": "code",
-    "redirect_uri": redirect_uri,
+    "redirect_uri": REDIRECT_URI,
     "scope": scope
 }
 
