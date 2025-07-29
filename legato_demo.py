@@ -4,8 +4,8 @@ import pandas as pd
 import streamlit as st
 import os
 
-CLIENT_ID= "client id here"
-CLIENT_SECRET = "client secret here"
+CLIENT_ID= "418bc0b18e11485589d6898e5530c0df"
+CLIENT_SECRET = "500b4a2a865e4b748c65bf48c1cf4b3f"
 REDIRECT_URI = 'https://legato-top10tracks.streamlit.app'
 
 sp = spotipy.Spotify(
