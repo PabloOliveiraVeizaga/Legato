@@ -13,7 +13,7 @@ REDIRECT_URI = 'https://legato-top10tracks.streamlit.app/callback'
 
 # Geração do link de autenticação
 params = {
-    "client_id": SPOTIPY_CLIENT_ID,
+    "client_id": CLIENT_ID,
     "response_type": "code",
     "redirect_uri": REDIRECT_URI,
     "scope": 'user-top-read user-library-read user-read-recently-played user-read-playback-state user-modify-playback-state'
