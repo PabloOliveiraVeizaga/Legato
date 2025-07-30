@@ -7,8 +7,8 @@ import os
 import urllib.parse
 import base64
 
-SPOTIPY_CLIENT_ID = "418bc0b18e11485589d6898e5530c0df"
-SPOTIPY_CLIENT_SECRET = "500b4a2a865e4b748c65bf48c1cf4b3f"
+SPOTIPY_CLIENT_ID = ""
+SPOTIPY_CLIENT_SECRET = ""
 REDIRECT_URI = 'https://legato-top10tracks.streamlit.app/callback'
 
 # Geração do link de autenticação
