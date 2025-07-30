@@ -56,7 +56,7 @@ if token_response.status_code != 400:
     st.stop()
 
 # 🔄 Limpar a URL após sucesso
-st.query_params()
+st.query_params
 
 # Usar o token
 access_token = token_response.json()["access_token"]
