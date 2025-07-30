@@ -49,7 +49,7 @@ data = {
 # Requisição de token
 token_response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
 
-if token_response.status_code != 200:
+if token_response.status_code != 400:
     st.error("❌ Erro ao obter o token de acesso do Spotify.")
     st.write("Status:", token_response.status_code)
     st.write("Resposta:", token_response.json())
