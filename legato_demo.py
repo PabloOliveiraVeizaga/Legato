@@ -39,7 +39,7 @@ if "code" not in query_params:
 
 # Troca do código por token
 code = query_params["code"]
-auth_str = f"{SPOTIPY_CLIENT_ID}:{SPOTIPY_CLIENT_SECRET}"
+auth_str = f"{CLIENT_ID}:{CLIENT_SECRET}"
 b64_auth_str = base64.b64encode(auth_str.encode()).decode()
 
 headers = {
