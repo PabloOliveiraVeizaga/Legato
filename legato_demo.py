@@ -12,9 +12,6 @@ CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")  # ou coloque diretamente: "
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")  # ou diretamente: "seu_client_secret"
 REDIRECT_URI = 'https://legato-top10tracks.streamlit.app/callback'
 
-st.write(f"CLIENT_ID OK? {'Sim' if CLIENT_ID else 'Não'}")
-st.write(f"CLIENT_SECRET OK? {'Sim' if CLIENT_SECRET else 'Não'}")
-
 # Geração do link de autenticação
 params = {
     "client_id": CLIENT_ID,
@@ -35,11 +32,7 @@ st.set_page_config(
 st.title("Analise seu Top 10 Músicas Favoritas no Spotify")
 st.write("Esta aplicação permite que você visualize e analise suas 10 músicas mais tocadas no Spotify, incluindo nome da música, álbum, artistas, data de lançamento, duração e popularidade.")
 
-
-# Se não tiver código, mostra botão de login
-if "code" not in st.query_params:
-    st.markdown(f"[Clique aqui para autenticar com o Spotify]({auth_url})")
-    st.stop()
+st.markdown(f"[Clique aqui para autenticar com o Spotify]({auth_url})")
 
 # Troca do código por token de acesso
 code = st.query_params["code"][0]
