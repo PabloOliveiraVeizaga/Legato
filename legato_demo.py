@@ -33,7 +33,7 @@ st.title("Analise seu Top 10 Músicas Favoritas no Spotify")
 st.write("Esta aplicação permite que você visualize e analise suas 10 músicas mais tocadas no Spotify, incluindo nome da música, álbum, artistas, data de lançamento, duração e popularidade.")
 
 # Pegando parâmetros da URL
-query_params = st.experimental_get_query_params()
+query_params = st.query_params()
 
 # Se não tiver código, mostra botão de login
 if "code" not in query_params:
