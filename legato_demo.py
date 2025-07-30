@@ -34,12 +34,12 @@ st.write("Esta aplicação permite que você visualize e analise suas 10 música
 
 
 # Se não tiver código, mostra botão de login
-if "code" not in st.query_params():
+if "code" not in st.query_params:
     st.markdown(f"[Clique aqui para autenticar com o Spotify]({auth_url})")
     st.stop()
 
 # Troca do código por token de acesso
-code = st.query_params()["code"][0]
+code = st.query_params["code"][0]
 auth_str = f"{CLIENT_ID}:{CLIENT_SECRET}"
 b64_auth_str = base64.b64encode(auth_str.encode()).decode()
 
