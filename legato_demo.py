@@ -59,11 +59,19 @@ data = {
 
 token_response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
 
-if token_response.status_code != 200:
+code = st.query_params["code"][0]
+
+# ... faz a troca por token ...
+
+if token_response.status_code == 200:
+    access_token = token_response.json().get("access_token")
+    st.query_params  # Limpa o ?code= da URL
+else:
     st.error("Erro ao obter o token de acesso do Spotify.")
     st.write("Status:", token_response.status_code)
     st.write("Resposta:", token_response.json())
     st.stop()
+
 
 # Recupera o token
 access_token = token_response.json().get("access_token")
