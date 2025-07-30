@@ -5,34 +5,34 @@ import os
 import urllib.parse
 import base64
 
-# Variáveis de ambiente ou coloque diretamente os valores
+# --- CONFIGURAÇÕES ---
 CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")
 REDIRECT_URI = "https://legato-top10tracks.streamlit.app/callback"
 
-# Link de autenticação Spotify
+# --- LINK DE AUTENTICAÇÃO ---
 params = {
     "client_id": CLIENT_ID,
     "response_type": "code",
     "redirect_uri": REDIRECT_URI,
-    "scope": "user-top-read user-library-read user-read-recently-played user-read-playback-state user-modify-playback-state"
+    "scope": "user-top-read user-library-read user-read-recently-played"
 }
 auth_url = f"https://accounts.spotify.com/authorize?{urllib.parse.urlencode(params)}"
 
-# Layout da interface
+# --- LAYOUT ---
 st.set_page_config(page_title="Legato - Spotify", layout="wide")
 st.title("🎵 Legato - Suas 10 músicas mais tocadas")
-
-# Obtém parâmetros da URL
 query_params = st.query_params
 
-# Se "code" não estiver presente, mostra botão de login
+# --- FLUXO ---
 if "code" not in query_params:
     st.markdown(f"[👉 Clique aqui para autenticar com o Spotify]({auth_url})")
     st.stop()
 
-# Troca código por token de acesso
-code = query_params["code"][0]  # O valor vem como lista
+# --- TROCA DE CODE POR TOKEN ---
+code = query_params["code"][0]
+
+# Preparar cabeçalho de autenticação
 auth_str = f"{CLIENT_ID}:{CLIENT_SECRET}"
 b64_auth_str = base64.b64encode(auth_str.encode()).decode()
 
@@ -46,6 +46,7 @@ data = {
     "redirect_uri": REDIRECT_URI
 }
 
+# Requisição de token
 token_response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
 
 if token_response.status_code != 200:
@@ -54,13 +55,14 @@ if token_response.status_code != 200:
     st.write("Resposta:", token_response.json())
     st.stop()
 
-# Limpa ?code= da URL para evitar erro se recarregar
+# 🔄 Limpar a URL após sucesso
 st.experimental_set_query_params()
 
-access_token = token_response.json().get("access_token")
+# Usar o token
+access_token = token_response.json()["access_token"]
 sp = spotipy.Spotify(auth=access_token)
 
-# Requisição às Top Tracks
+# --- OBTÉM TOP TRACKS ---
 top_tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
 
 st.subheader("🎧 Suas Top 10 Músicas")
