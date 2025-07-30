@@ -7,8 +7,8 @@ import os
 import urllib.parse
 import base64
 
-SPOTIPY_CLIENT_ID = ""
-SPOTIPY_CLIENT_SECRET = ""
+CLIENT_ID = ""
+CLIENT_SECRET = ""
 REDIRECT_URI = 'https://legato-top10tracks.streamlit.app/callback'
 
 # Geração do link de autenticação
@@ -57,8 +57,8 @@ response = requests.post("https://accounts.spotify.com/api/token", headers=heade
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
-        client_id=SPOTIPY_CLIENT_ID,
-        client_secret=SPOTIPY_CLIENT_SECRET,
+        client_id=CLIENT_ID,
+        client_secret=CLIENT_SECRET,
         redirect_uri=REDIRECT_URI,
         scope='user-top-read user-library-read user-read-recently-played user-read-playback-state user-modify-playback-state'
     )
