@@ -59,8 +59,6 @@ data = {
 
 token_response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
 
-code = st.query_params["code"][0]
-
 # ... faz a troca por token ...
 
 if token_response.status_code == 200:
