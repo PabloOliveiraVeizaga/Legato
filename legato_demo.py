@@ -57,12 +57,12 @@ data = {
     "redirect_uri": REDIRECT_URI
 }
 
-# Faz a requisição para obter token
 token_response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
 
-# Se falhar, interrompe e exibe erro
 if token_response.status_code != 200:
     st.error("Erro ao obter o token de acesso do Spotify.")
+    st.write("Status:", token_response.status_code)
+    st.write("Resposta:", token_response.json())
     st.stop()
 
 # Recupera o token
