@@ -12,6 +12,9 @@ CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")  # ou coloque diretamente: "
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")  # ou diretamente: "seu_client_secret"
 REDIRECT_URI = 'https://legato-top10tracks.streamlit.app/callback'
 
+st.write(f"CLIENT_ID OK? {'Sim' if CLIENT_ID else 'Não'}")
+st.write(f"CLIENT_SECRET OK? {'Sim' if CLIENT_SECRET else 'Não'}")
+
 # Geração do link de autenticação
 params = {
     "client_id": CLIENT_ID,
