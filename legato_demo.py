@@ -32,16 +32,14 @@ st.set_page_config(
 st.title("Analise seu Top 10 Músicas Favoritas no Spotify")
 st.write("Esta aplicação permite que você visualize e analise suas 10 músicas mais tocadas no Spotify, incluindo nome da música, álbum, artistas, data de lançamento, duração e popularidade.")
 
-# Pegando parâmetros da URL
-query_params = st.query_params()
 
 # Se não tiver código, mostra botão de login
-if "code" not in query_params:
+if "code" not in st.query_params():
     st.markdown(f"[Clique aqui para autenticar com o Spotify]({auth_url})")
     st.stop()
 
 # Troca do código por token de acesso
-code = query_params["code"][0]
+code = st.query_params()["code"][0]
 auth_str = f"{CLIENT_ID}:{CLIENT_SECRET}"
 b64_auth_str = base64.b64encode(auth_str.encode()).decode()
 
