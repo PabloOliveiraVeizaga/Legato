@@ -10,6 +10,14 @@ CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")
 REDIRECT_URI = "https://legato-top10tracks.streamlit.app"
 
+sp = spotipy.Spotify(
+    auth=SpotifyOAuth(
+    client_id: CLIENT_ID,
+    client_secret: CLIENT_SECRET,
+    redirect_uri: REDIRECT_URI,
+    scope: user-top-read user-library-read user-read-recently-played
+    ))
+
 # --- LINK DE AUTENTICAÇÃO ---
 params = {
     "client_id": CLIENT_ID,
@@ -62,7 +70,6 @@ st.query_params
 
 # Usar o token
 access_token = token_response.json()["access_token"]
-sp = spotipy.Spotify(auth=SpotifyOAuth(scope=scope))
 
 # --- OBTÉM TOP TRACKS ---
 top_tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
