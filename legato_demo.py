@@ -13,6 +13,10 @@ SCOPE = "user-top-read user-library-read user-read-recently-played"
 st.set_page_config(page_title="Legato - Spotify", layout="wide")
 st.title("🎵 Legato - Suas 10 músicas mais tocadas")
 
+# --- CAPTURA DE QUERY PARAMS ---
+query_params = st.query_params
+code = query_params.get("code", [None])[0]
+
 # --- AUTENTICAÇÃO ---
 sp = spotipy.Spotify(
     auth_manager = SpotifyOAuth(
