@@ -3,7 +3,7 @@ from spotipy.oauth2 import SpotifyOAuth
 import streamlit as st
 import os
 
-# --- CONFIGURAÇÕES ---
+# --- CONFIG ---
 CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")
 REDIRECT_URI = "https://legato-top10tracks.streamlit.app"
@@ -13,11 +13,7 @@ SCOPE = "user-top-read user-library-read user-read-recently-played"
 st.set_page_config(page_title="Legato - Spotify", layout="wide")
 st.title("🎵 Legato - Suas 10 músicas mais tocadas")
 
-# --- CAPTURA DE QUERY PARAMS ---
-query_params = st.query_params
-code = query_params.get("code", [None])[0]
-
-# --- GERENCIADOR DE AUTENTICAÇÃO ---
+# --- FLUXO DE AUTENTICAÇÃO ---
 auth_manager = SpotifyOAuth(
     client_id=CLIENT_ID,
     client_secret=CLIENT_SECRET,
@@ -25,23 +21,29 @@ auth_manager = SpotifyOAuth(
     scope=SCOPE
 )
 
-# --- FLUXO: JÁ TEMOS TOKEN EM SESSÃO? ---
+query_params = st.query_params
+code = query_params.get("code", [None])[0]
+
+# --- TROCA DE CODE POR TOKEN ---
 if "token_info" not in st.session_state:
     if code:
-        # Trocar o code por um token
-        token_info = auth_manager.get_access_token(code, as_dict=True)
-        st.session_state.token_info = token_info
+        try:
+            token_info = auth_manager.get_access_token(code, as_dict=True)
+            st.session_state.token_info = token_info
+        except Exception as e:
+            st.error("❌ Erro ao autenticar com o Spotify.")
+            st.write("Erro:", str(e))
+            st.stop()
     else:
-        # Gera o link de autenticação
         auth_url = auth_manager.get_authorize_url()
         st.markdown(f"[👉 Clique aqui para autenticar com o Spotify]({auth_url})")
         st.stop()
 
-# --- INSTANCIA O CLIENTE SPOTIPY ---
+# --- USAR O TOKEN VÁLIDO ---
 access_token = st.session_state.token_info["access_token"]
 sp = spotipy.Spotify(auth=access_token)
 
-# --- OBTÉM TOP TRACKS ---
+# --- BUSCA E EXIBE AS MÚSICAS ---
 top_tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
 
 st.subheader("🎧 Suas Top 10 Músicas")
