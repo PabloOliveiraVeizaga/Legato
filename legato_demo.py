@@ -12,10 +12,10 @@ REDIRECT_URI = "https://legato-top10tracks.streamlit.app"
 
 sp = spotipy.Spotify(
     auth=SpotifyOAuth(
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
-        redirect_uri: REDIRECT_URI,
-        scope: 'user-top-read user-library-read user-read-recently-played'
+        client_id= CLIENT_ID,
+        client_secret= CLIENT_SECRET,
+        redirect_uri= REDIRECT_URI,
+        scope= 'user-top-read user-library-read user-read-recently-played'
     )
 )
 
