@@ -9,7 +9,6 @@ Legato é uma aplicação web interativa desenvolvida com [Streamlit](https://st
 - 🎧 Exibição das 10 faixas mais tocadas no curto prazo (`short_term`)
 - 🖼️ Capas dos álbuns e links diretos para as músicas no Spotify
 - 📊 Informações detalhadas: nome da música, álbum, artistas, data de lançamento, duração e popularidade
-- ✅ Sem necessidade de instalação local — roda diretamente no navegador
 
 ---
 
