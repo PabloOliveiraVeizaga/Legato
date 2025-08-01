@@ -54,7 +54,7 @@ if token_response.status_code != 200:
     st.write("Status:", token_response.status_code)
     st.write("Resposta:", token_response.json())
     st.stop()
-
+print(os.environ)
 # 🔄 Limpar a URL após sucesso
 st.query_params
 
