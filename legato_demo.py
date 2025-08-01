@@ -9,29 +9,37 @@ CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")
 REDIRECT_URI = "https://legato-top10tracks.streamlit.app"
 SCOPE = "user-top-read user-library-read user-read-recently-played"
 
-# --- SETUP DO APP ---
+# --- LAYOUT ---
 st.set_page_config(page_title="Legato - Spotify", layout="wide")
 st.title("🎵 Legato - Suas 10 músicas mais tocadas")
 
-# --- AUTENTICAÇÃO ---
+# --- CAPTURA DE QUERY PARAMS ---
+query_params = st.query_params
+code = query_params.get("code", [None])[0]
+
+# --- GERENCIADOR DE AUTENTICAÇÃO ---
 auth_manager = SpotifyOAuth(
     client_id=CLIENT_ID,
     client_secret=CLIENT_SECRET,
     redirect_uri=REDIRECT_URI,
-    scope=SCOPE,
-    show_dialog=True,               # Garante que usuário sempre veja a tela de login
-    open_browser=False              # Evita erro de browser em ambiente web
+    scope=SCOPE
 )
 
-# Gerencia o token automaticamente
-if not auth_manager.get_cached_token():
-    auth_url = auth_manager.get_authorize_url()
-    st.markdown(f"[👉 Clique aqui para autenticar com o Spotify]({auth_url})")
-    st.stop()
+# --- FLUXO: JÁ TEMOS TOKEN EM SESSÃO? ---
+if "token_info" not in st.session_state:
+    if code:
+        # Trocar o code por um token
+        token_info = auth_manager.get_access_token(code, as_dict=True)
+        st.session_state.token_info = token_info
+    else:
+        # Gera o link de autenticação
+        auth_url = auth_manager.get_authorize_url()
+        st.markdown(f"[👉 Clique aqui para autenticar com o Spotify]({auth_url})")
+        st.stop()
 
-# Tenta obter o token (Spotipy gerencia a troca do code por token)
-token_info = auth_manager.get_access_token(as_dict=False)
-sp = spotipy.Spotify(auth=token_info)
+# --- INSTANCIA O CLIENTE SPOTIPY ---
+access_token = st.session_state.token_info["access_token"]
+sp = spotipy.Spotify(auth=access_token)
 
 # --- OBTÉM TOP TRACKS ---
 top_tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
