@@ -41,7 +41,7 @@ auth_manager = SpotifyOAuth(
 if "token_info" not in st.session_state:
     if code:
         # Trocar o code por um token
-        token_info = auth_manager.get_access_token(code, as_dict=True)
+        token_info = auth_manager.get_access_token(code, as_dict=False)
         st.session_state.token_info = token_info
     else:
         # Gera o link de autenticação
