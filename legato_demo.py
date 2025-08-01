@@ -24,6 +24,14 @@ sp = spotipy.Spotify(
         open_browser=False              # Evita erro de browser em ambiente web
     )
 )
+auth_manager = SpotifyOAuth(
+    client_id=CLIENT_ID,
+    client_secret=CLIENT_SECRET,
+    redirect_uri=REDIRECT_URI,
+    scope=SCOPE,
+    show_dialog=True,               # Garante que usuário sempre veja a tela de login
+    open_browser=False              # Evita erro de browser em ambiente web
+)
 
 # Gerencia o token automaticamente
 if not auth_manager.get_cached_token():
