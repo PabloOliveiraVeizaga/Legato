@@ -1,9 +1,11 @@
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
 import streamlit as st
+import requests
+import spotipy
 import os
+import base64
+import urllib.parse
 
-# --- CONFIG ---
+# --- CONFIGURAÇÕES ---
 CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")
 REDIRECT_URI = "https://legato-top10tracks.streamlit.app"
@@ -13,37 +15,55 @@ SCOPE = "user-top-read user-library-read user-read-recently-played"
 st.set_page_config(page_title="Legato - Spotify", layout="wide")
 st.title("🎵 Legato - Suas 10 músicas mais tocadas")
 
-# --- FLUXO DE AUTENTICAÇÃO ---
-auth_manager = SpotifyOAuth(
-    client_id=CLIENT_ID,
-    client_secret=CLIENT_SECRET,
-    redirect_uri=REDIRECT_URI,
-    scope=SCOPE
-)
+# --- GERAR URL DE AUTENTICAÇÃO ---
+params = {
+    "client_id": CLIENT_ID,
+    "response_type": "code",
+    "redirect_uri": REDIRECT_URI,
+    "scope": SCOPE
+}
+auth_url = f"https://accounts.spotify.com/authorize?{urllib.parse.urlencode(params)}"
 
+# --- OBTÉM CODE DA URL ---
 query_params = st.query_params
 code = query_params.get("code", [None])[0]
 
-# --- TROCA DE CODE POR TOKEN ---
-if "token_info" not in st.session_state:
+# --- FLUXO PRINCIPAL ---
+if "access_token" not in st.session_state:
     if code:
-        try:
-            token_info = auth_manager.get_access_token(code, as_dict=True)
-            st.session_state.token_info = token_info
-        except Exception as e:
-            st.error("❌ Erro ao autenticar com o Spotify.")
-            st.write("Erro:", str(e))
+        # Preparar requisição para trocar o code por token
+        auth_str = f"{CLIENT_ID}:{CLIENT_SECRET}"
+        b64_auth_str = base64.b64encode(auth_str.encode()).decode()
+
+        headers = {
+            "Authorization": f"Basic {b64_auth_str}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+        data = {
+            "grant_type": "authorization_code",
+            "code": code,
+            "redirect_uri": REDIRECT_URI
+        }
+
+        response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
+
+        if response.status_code == 200:
+            token_data = response.json()
+            st.session_state.access_token = token_data["access_token"]
+        else:
+            st.error("❌ Erro ao obter o token de acesso do Spotify.")
+            st.write("Status:", response.status_code)
+            st.write("Resposta:", response.json())
             st.stop()
     else:
-        auth_url = auth_manager.get_authorize_url()
+        # Se ainda não autenticado, mostra link
         st.markdown(f"[👉 Clique aqui para autenticar com o Spotify]({auth_url})")
         st.stop()
 
-# --- USAR O TOKEN VÁLIDO ---
-access_token = st.session_state.token_info["access_token"]
-sp = spotipy.Spotify(auth=access_token)
+# --- CLIENTE SPOTIPY COM TOKEN AUTORIZADO ---
+sp = spotipy.Spotify(auth=st.session_state.access_token)
 
-# --- BUSCA E EXIBE AS MÚSICAS ---
+# --- OBTÉM TOP TRACKS ---
 top_tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
 
 st.subheader("🎧 Suas Top 10 Músicas")
