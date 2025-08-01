@@ -62,7 +62,7 @@ st.query_params
 
 # Usar o token
 access_token = token_response.json()["access_token"]
-sp = spotipy.Spotify(auth=access_token)
+sp = spotipy.Spotify(auth=SpotifyOAuth(scope=scope))
 
 # --- OBTÉM TOP TRACKS ---
 top_tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
