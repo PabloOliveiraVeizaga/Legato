@@ -33,14 +33,21 @@ auth_manager = SpotifyOAuth(
     open_browser=False              # Evita erro de browser em ambiente web
 )
 
-# Gerencia o token automaticamente
-if not auth_manager.get_cached_token():
-    auth_url = auth_manager.get_authorize_url()
-    st.markdown(f"[👉 Clique aqui para autenticar com o Spotify]({auth_url})")
-    st.stop()
+# --- FLUXO: JÁ TEMOS TOKEN EM SESSÃO? ---
+if "token_info" not in st.session_state:
+    if code:
+        # Trocar o code por um token
+        token_info = auth_manager.get_access_token(code, as_dict=True)
+        st.session_state.token_info = token_info
+    else:
+        # Gera o link de autenticação
+        auth_url = auth_manager.get_authorize_url()
+        st.markdown(f"[👉 Clique aqui para autenticar com o Spotify]({auth_url})")
+        st.stop()
 
-# Tenta obter o token (Spotipy gerencia a troca do code por token)
-token_info = auth_manager.get_access_token(as_dict=False)
+# --- INSTANCIA O CLIENTE SPOTIPY ---
+access_token = st.session_state.token_info["access_token"]
+sp = spotipy.Spotify(auth=access_token)
 
 # --- OBTÉM TOP TRACKS ---
 top_tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
