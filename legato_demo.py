@@ -10,28 +10,6 @@ CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")
 REDIRECT_URI = "https://legato-top10tracks.streamlit.app"
 SCOPE = "user-top-read user-library-read user-read-recently-played"
-CODE = "AQBSm53MBlONcSXEnxV8u55f88hCNEdottZxEAtdoCjONe57O5d4DQsTURb8Loocxgt9O-3jWupha3sbrRkePwVVfmHGhyI1Im2RS-iuTEWlHs0fZP8Pea3IsB0qxney3WWcy9CHrISStEgEs3dwbNO0jOc5Rg_xeJMQh2_BehWuurKdgbYnzTHBlfHMXqLhrMmx2VKWTF1xC90DlYUT5K7iGXzAmsIkPqSJLyP4pMB139GAnapTILQDaC7UIsCl-8NdJXadgJQI"
-
-# Montar cabeçalho de autorização
-auth_str = f"{CLIENT_ID}:{CLIENT_SECRET}"
-b64_auth_str = base64.b64encode(auth_str.encode()).decode()
-
-headers = {
-    "Authorization": f"Basic {b64_auth_str}",
-    "Content-Type": "application/x-www-form-urlencoded"
-}
-
-data = {
-    "grant_type": "authorization_code",
-    "code": CODE,
-    "redirect_uri": REDIRECT_URI
-}
-
-response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
-
-print("Status:", response.status_code)
-print("Resposta:", response.json())
-
 # --- LAYOUT ---
 st.set_page_config(page_title="Legato - Spotify", layout="wide")
 st.title("🎵 Legato - Suas 10 músicas mais tocadas")
