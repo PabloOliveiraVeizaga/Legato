@@ -7,8 +7,8 @@ import urllib.parse
 import base64
 
 # --- CONFIGURAÇÕES ---
-CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")
-CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")
+CLIENT_ID = os.environ.get('SPOTIPY_CLIENT_ID', "")
+CLIENT_SECRET = os.environ.get('SPOTIPY_CLIENT_SECRET', "")
 REDIRECT_URI = 'https://legato-top10tracks.streamlit.app'
 
 sp = spotipy.Spotify(
