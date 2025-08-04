@@ -95,7 +95,7 @@ def mostrar_top_tracks(time_range, titulo, container):
             container.markdown(f"**Artistas:** {artists}")
             container.markdown(f"**Lançamento:** {data_formatada}")
             container.markdown(f"**Duração:** {minutos}min {segundos:02d}s")
-            container.markdown(f"**Popularidade:** {popularity}")
+            container.markdown(f"**Popularidade:** {popularity} (i)")
         container.markdown("---")
 
 
@@ -105,4 +105,4 @@ col1, col2, col3 = st.columns(3)
 mostrar_top_tracks("short_term", "🎧 Últimas 4 semanas", col1)
 mostrar_top_tracks("medium_term", "🕒 Últimos 6 meses", col2)
 mostrar_top_tracks("long_term", "📅 Último ano", col3)
-st.caption("Popularidade da faixa: O valor estará entre 0 e 100, sendo 100 o mais popular. É calculada por algoritmo e se baseia, em grande parte, no número total de reproduções da faixa e em quão recentes essas reproduções foram. De modo geral, músicas que estão sendo muito tocadas agora terão uma popularidade maior do que músicas que foram muito tocadas no passado. Faixas duplicadas (por exemplo, a mesma faixa de um single e de um álbum) são classificadas de forma independente. A popularidade do artista e do álbum é derivada matematicamente da popularidade da faixa. Observação: o valor da popularidade pode ter um atraso de alguns dias em relação à popularidade real: o valor não é atualizado em tempo real.")
+st.caption("(i) Popularidade da faixa: O valor estará entre 0 e 100, sendo 100 o mais popular. É calculada por algoritmo e se baseia, em grande parte, no número total de reproduções da faixa e em quão recentes essas reproduções foram. De modo geral, músicas que estão sendo muito tocadas agora terão uma popularidade maior do que músicas que foram muito tocadas no passado. Faixas duplicadas (por exemplo, a mesma faixa de um single e de um álbum) são classificadas de forma independente. A popularidade do artista e do álbum é derivada matematicamente da popularidade da faixa. Observação: o valor da popularidade pode ter um atraso de alguns dias em relação à popularidade real: o valor não é atualizado em tempo real.")
