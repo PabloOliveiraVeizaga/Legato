@@ -72,7 +72,6 @@ def mostrar_top_tracks(time_range, titulo, container):
         artists = ', '.join([artist['name'] for artist in item['artists']])
         release_date = item['album']['release_date']
         try:
-            # Alguns álbuns vêm apenas com ano ou ano/mês (ex: "2009" ou "2009-01")
             data_formatada = datetime.strptime(release_date, "%Y-%m-%d").strftime("%d/%m/%Y")
         except ValueError:
             try:
