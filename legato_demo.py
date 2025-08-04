@@ -71,6 +71,8 @@ def mostrar_top_tracks(time_range, titulo, container):
         artists = ', '.join([artist['name'] for artist in item['artists']])
         release_date = item['album']['release_date']
         duration_ms = item['duration_ms']
+        minutos = duration_ms // 60000
+        segundos = (duration_ms % 60000) // 1000
         popularity = item['popularity']
         image_url = item['album']['images'][0]['url']
         spotify_url = item['external_urls']['spotify']
@@ -84,7 +86,7 @@ def mostrar_top_tracks(time_range, titulo, container):
             container.markdown(f"**Álbum:** {album_name}")
             container.markdown(f"**Artistas:** {artists}")
             container.markdown(f"**Lançamento:** {release_date}")
-            container.markdown(f"**Duração:** {duration_ms}")
+            container.markdown(f"**Duração:** {minutos}min {segundos:02d}s")
             container.markdown(f"**Popularidade:** {popularity}")
         container.markdown("---")
 
