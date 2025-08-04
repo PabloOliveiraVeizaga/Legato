@@ -1,5 +1,6 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+from datetime import datetime
 import streamlit as st
 import requests
 import os
@@ -70,6 +71,14 @@ def mostrar_top_tracks(time_range, titulo, container):
         album_name = item['album']['name']
         artists = ', '.join([artist['name'] for artist in item['artists']])
         release_date = item['album']['release_date']
+        try:
+            # Alguns álbuns vêm apenas com ano ou ano/mês (ex: "2009" ou "2009-01")
+            data_formatada = datetime.strptime(release_date, "%Y-%m-%d").strftime("%d/%m/%Y")
+        except ValueError:
+        try:
+            data_formatada = datetime.strptime(release_date, "%Y-%m").strftime("%m/%Y")
+        except ValueError:
+            data_formatada = release_date  # Apenas o ano, sem formatação extra
         duration_ms = item['duration_ms']
         minutos = duration_ms // 60000
         segundos = (duration_ms % 60000) // 1000
@@ -85,7 +94,7 @@ def mostrar_top_tracks(time_range, titulo, container):
             container.markdown(f"**Música:** [{track_name}]({spotify_url})")
             container.markdown(f"**Álbum:** {album_name}")
             container.markdown(f"**Artistas:** {artists}")
-            container.markdown(f"**Lançamento:** {release_date}")
+            container.markdown(f"**Lançamento:** {data_formatada}")
             container.markdown(f"**Duração:** {minutos}min {segundos:02d}s")
             container.markdown(f"**Popularidade:** {popularity}")
         container.markdown("---")
