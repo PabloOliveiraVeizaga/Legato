@@ -80,7 +80,7 @@ def mostrar_top_tracks(time_range, titulo, container):
         container.markdown(f"### {i}º Lugar")
         col1, col2 = container.columns([1, 3])
         with col1:
-            container.image(image_url, width=200, align=center)
+            container.image(image_url, width=200)
         with col2:
             container.markdown(f"**Música:** [{track_name}]({spotify_url})")
             container.markdown(f"**Álbum:** {album_name}")
