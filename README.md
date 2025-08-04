@@ -2,12 +2,12 @@
 
 <img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/8cfd1426-fc2b-48cc-ac49-cdfed113cf37" align="right"/>
 
-Legato é uma aplicação web interativa desenvolvida com [Streamlit](https://streamlit.io), que se conecta à sua conta Spotify e exibe suas 10 músicas mais ouvidas recentemente.
+Legato é uma aplicação web interativa desenvolvida com [Streamlit](https://streamlit.io), que se conecta à sua conta Spotify e exibe suas 10 músicas mais ouvidas no ultimo mês, nos ultimos 6 meses e no ultimo ano.
 
 ## 🚀 Funcionalidades
 
 - 🔒 Autenticação segura com sua conta Spotify
-- 🎧 Exibição das 10 faixas mais tocadas no curto prazo (`short_term`)
+- 🎧 Exibição das 10 faixas mais tocadas no curto prazo (`short_term`), medio prazo (`medium_term`) e longo prazo (`long_term`)
 - 🖼️ Capas dos álbuns e links diretos para as músicas no Spotify
 - 📊 Informações detalhadas: nome da música, álbum, artistas, data de lançamento, duração e popularidade
 
