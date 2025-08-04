@@ -64,7 +64,35 @@ sp = spotipy.Spotify(auth=access_token)
 top_tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
 
 # --- EXIBIÇÃO DAS MÚSICAS ---
-st.subheader("🎧 Suas Top 10 Músicas")
+st.subheader("🎧 Suas Top 10 Músicas das ultimas quatro semanas!")
+
+for i, item in enumerate(top_tracks['items'], 1):
+    track_name = item['name']
+    album_name = item['album']['name']
+    artists = ', '.join([artist['name'] for artist in item['artists']])
+    release_date = item['album']['release_date']
+    duration_ms = item['duration_ms']
+    popularity = item['popularity']
+    image_url = item['album']['images'][0]['url']
+    spotify_url = item['external_urls']['spotify']
+
+    st.markdown(f"### {i}º Lugar")
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        st.image(image_url, width=250)
+    with col2:
+        st.markdown(f"**Música:** [{track_name}]({spotify_url})")
+        st.markdown(f"**Álbum:** {album_name}")
+        st.markdown(f"**Artistas:** {artists}")
+        st.markdown(f"**Lançamento:** {release_date}")
+        st.markdown(f"**Duração (ms):** {duration_ms}")
+        st.markdown(f"**Popularidade:** {popularity}")
+    st.markdown("---")
+
+top_tracks = sp.current_user_top_tracks(limit=10, time_range="medium_term")
+
+# --- EXIBIÇÃO DAS MÚSICAS ---
+st.subheader("🎧 Suas Top 10 Músicas dos ultimos seis meses!")
 
 for i, item in enumerate(top_tracks['items'], 1):
     track_name = item['name']
