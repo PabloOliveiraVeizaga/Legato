@@ -84,7 +84,7 @@ def mostrar_top_tracks(time_range, titulo, container):
             container.markdown(f"**Álbum:** {album_name}")
             container.markdown(f"**Artistas:** {artists}")
             container.markdown(f"**Lançamento:** {release_date}")
-            container.markdown(f"**Duração:** {duration_ms/60000}")
+            container.markdown(f"**Duração:** {duration_ms}")
             container.markdown(f"**Popularidade:** {popularity}")
         container.markdown("---")
 
