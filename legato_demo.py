@@ -65,6 +65,7 @@ user_info = sp.current_user()
 
 # --- EXTRAI DADOS DO USUÁRIO ---
 user_name = user_info.get("display_name", "Usuário")
+images = user_info.get("images", [])
 user_image = images[0]["url"] if images else None
 followers = user_info.get("followers", {}).get("total", 0)
 country = user_info.get("country", "N/A")
