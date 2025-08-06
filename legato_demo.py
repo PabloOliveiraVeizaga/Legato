@@ -60,6 +60,25 @@ if response.status_code != 200:
 # --- PEGA ACCESS TOKEN E CRIA INSTÂNCIA DO SPOTIFY COM ELE ---
 access_token = response.json().get("access_token")
 sp = spotipy.Spotify(auth=access_token)
+# --- OBTÉM INFORMAÇÕES DO USUÁRIO ---
+user_info = sp.current_user()
+
+# --- EXTRAI DADOS DO USUÁRIO ---
+user_name = user_info.get("display_name", "Usuário")
+user_image = user_info.get("images", [{}])[0].get("url", "")
+followers = user_info.get("followers", {}).get("total", 0)
+country = user_info.get("country", "N/A")
+subscription = user_info.get("product", "N/A").capitalize()  # 'free' ou 'premium'
+
+# --- MOSTRA NO CANTO SUPERIOR DIREITO ---
+with st.sidebar:
+    if user_image:
+        st.image(user_image, width=150)
+    st.markdown(f"## 👤 {user_name}")
+    st.markdown(f"**Seguidores:** {followers}")
+    st.markdown(f"**País:** {country}")
+    st.markdown(f"**Plano:** {subscription}")
+    st.markdown("---")
 
 # --- FUNÇÃO PARA EXIBIR TRACKS ---
 def mostrar_top_tracks(time_range, titulo, container):
