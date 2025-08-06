@@ -11,7 +11,7 @@ import base64
 CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")
 REDIRECT_URI = 'https://legato-top10tracks.streamlit.app'
-SCOPE = 'user-top-read user-library-read user-read-recently-played'
+SCOPE = 'user-top-read user-library-read user-read-recently-played user-read-email user-read-private user-personalized'
 
 # --- LINK DE AUTENTICAÇÃO ---
 auth_manager = SpotifyOAuth(
@@ -61,7 +61,7 @@ if response.status_code != 200:
 access_token = response.json().get("access_token")
 sp = spotipy.Spotify(auth=access_token)
 
-
+st.write(current_user())
 # --- FUNÇÃO PARA EXIBIR TRACKS ---
 def mostrar_top_tracks(time_range, titulo, container):
     top_tracks = sp.current_user_top_tracks(limit=10, time_range=time_range)
