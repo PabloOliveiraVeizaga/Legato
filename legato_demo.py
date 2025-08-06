@@ -65,7 +65,7 @@ user_info = sp.current_user()
 
 # --- EXTRAI DADOS DO USUÁRIO ---
 user_name = user_info.get("display_name", "Usuário")
-user_image = user_info.get("images", [{}])[0].get("url", "")
+user_image = images[0]["url"] if images else None
 followers = user_info.get("followers", {}).get("total", 0)
 country = user_info.get("country", "N/A")
 subscription = user_info.get("product", "N/A").capitalize()  # 'free' ou 'premium'
