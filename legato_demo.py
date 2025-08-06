@@ -61,7 +61,6 @@ if response.status_code != 200:
 access_token = response.json().get("access_token")
 sp = spotipy.Spotify(auth=access_token)
 
-st.write(user())
 # --- FUNÇÃO PARA EXIBIR TRACKS ---
 def mostrar_top_tracks(time_range, titulo, container):
     top_tracks = sp.current_user_top_tracks(limit=10, time_range=time_range)
