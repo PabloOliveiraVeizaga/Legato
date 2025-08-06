@@ -11,7 +11,7 @@ import base64
 CLIENT_ID = os.environ.get("SPOTIPY_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("SPOTIPY_CLIENT_SECRET", "")
 REDIRECT_URI = 'https://legato-top10tracks.streamlit.app'
-SCOPE = 'user-top-read user-library-read user-read-recently-played user-read-email user-read-private user-personalized'
+SCOPE = 'user-top-read user-library-read user-read-recently-played user-read-email user-read-private'
 
 # --- LINK DE AUTENTICAÇÃO ---
 auth_manager = SpotifyOAuth(
